@@ -11,8 +11,8 @@ import { logger } from './utils/logger.js';
 
 const PORT = Number(process.env.PORT) || config.port || 5001;
 
-// Start server listening on all network interfaces (0.0.0.0) for cloud hosts & local
-if (process.env.NODE_ENV !== 'test') {
+// Only start standalone listener when not running in serverless (e.g. Vercel)
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.listen(PORT, '0.0.0.0', () => {
     logger.info(`=========================================`);
     logger.info(`🌱 GreenGrow AI Agriculture Server Running`);
