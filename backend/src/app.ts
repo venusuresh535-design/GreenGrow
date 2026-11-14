@@ -10,6 +10,9 @@ import ttsRoutes from './routes/ttsRoutes.js';
 
 export const app = express();
 
+// Trust proxy for reverse proxies (Vercel, Cloudflare, etc.)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(
   cors({
