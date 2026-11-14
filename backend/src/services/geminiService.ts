@@ -104,11 +104,19 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
   ];
 
   const ai = getGeminiClient();
-  const primaryModel = config.gemini.model || 'gemini-2.5-flash';
+  const configuredModel = config.gemini.model || 'gemini-2.0-flash';
 
-  // Fast fallback sequence across official Google Gemini models
+  // Fast candidate model sequence
   const candidateModels = Array.from(
-    new Set([primaryModel, 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'])
+    new Set([
+      configuredModel,
+      'gemini-2.0-flash',
+      'gemini-1.5-flash',
+      'gemini-1.5-flash-latest',
+      'gemini-1.5-flash-8b',
+      'gemini-1.5-pro',
+      'gemini-1.5-pro-latest',
+    ])
   );
 
   let lastError: any = null;
@@ -165,6 +173,10 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
     throw new Error('The Gemini AI service is currently experiencing a temporary demand spike. Please try again in a few seconds.');
   } else if (lastError.status === 400 || lastError.message?.includes('INVALID_ARGUMENT')) {
     throw new Error('Invalid request parameters sent to AI assistant.');
+  } else if (lastError.status === 404 || lastError.message?.includes('not found') || lastError.message?.includes('NOT_FOUND')) {
+    throw new Error(
+      'Gemini API key is not enabled for Google AI Studio models. Please generate a free API key at https://aistudio.google.com/apikey and set it as GEMINI_API_KEY in Vercel.'
+    );
   } else if (lastError.message?.includes('API key') || lastError.status === 401 || lastError.status === 403) {
     throw new Error('Gemini API authentication failed. Please verify your GEMINI_API_KEY in backend/.env.');
   }
