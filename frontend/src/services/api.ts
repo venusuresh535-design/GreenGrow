@@ -68,7 +68,16 @@ export const api = {
       body: JSON.stringify(bodyData),
     });
 
-    const data = await response.json();
+    const text = await response.text();
+    let data: any = {};
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error(
+        `Server communication error (${response.status}): ${text.substring(0, 150) || 'The server returned an unparseable response.'}`
+      );
+    }
+
     if (!response.ok || !data.success) {
       throw new Error(data.error || 'Failed to get response from GreenGrow AI.');
     }

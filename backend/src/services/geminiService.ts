@@ -104,11 +104,11 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
   ];
 
   const ai = getGeminiClient();
-  const primaryModel = config.gemini.model || 'gemini-3.5-flash-lite';
+  const primaryModel = config.gemini.model || 'gemini-2.5-flash';
 
-  // Fast fallback sequence for maximum speed and zero downtime
+  // Fast fallback sequence across official Google Gemini models
   const candidateModels = Array.from(
-    new Set([primaryModel, 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.5-flash', 'gemini-3.8-flash'])
+    new Set([primaryModel, 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'])
   );
 
   let lastError: any = null;

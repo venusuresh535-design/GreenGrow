@@ -9,7 +9,7 @@ export const config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || '',
-    model: process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite',
+    model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
   },
   supabase: {
     url: process.env.SUPABASE_URL || '',

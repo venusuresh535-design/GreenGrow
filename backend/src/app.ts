@@ -42,12 +42,12 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next();
 });
 
-// API Routes
-app.use('/api/health', healthRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/conversations', conversationRoutes);
-app.use('/api/profile', profileRoutes);
-app.use('/api/tts', ttsRoutes);
+// API Routes (mounted with /api and direct root for Vercel rewrites compatibility)
+app.use(['/api/health', '/health'], healthRoutes);
+app.use(['/api/chat', '/chat'], chatRoutes);
+app.use(['/api/conversations', '/conversations'], conversationRoutes);
+app.use(['/api/profile', '/profile'], profileRoutes);
+app.use(['/api/tts', '/tts'], ttsRoutes);
 
 // Root route
 app.get('/', (_req: Request, res: Response) => {
