@@ -10,8 +10,10 @@ const __dirname = path.dirname(__filename);
 let validLanguageCodes = new Set<string>();
 try {
   const languagesPath = path.resolve(__dirname, '../data/languages.json');
-  if (fs.existsSync(languagesPath)) {
-    const raw = fs.readFileSync(languagesPath, 'utf-8');
+  const fallbackPath = path.resolve(__dirname, '../../src/data/languages.json');
+  const targetPath = fs.existsSync(languagesPath) ? languagesPath : (fs.existsSync(fallbackPath) ? fallbackPath : '');
+  if (targetPath) {
+    const raw = fs.readFileSync(targetPath, 'utf-8');
     const langs = JSON.parse(raw);
     langs.forEach((l: any) => validLanguageCodes.add(l.code.toLowerCase()));
   }
