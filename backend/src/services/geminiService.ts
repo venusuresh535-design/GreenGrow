@@ -106,16 +106,17 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
   try {
     const ai = getGeminiClient();
     if (ai) {
-      const configuredModel = config.gemini.model || 'gemini-2.0-flash';
+      const configuredModel = config.gemini.model || 'gemini-3.8-flash';
       const candidateModels = Array.from(
         new Set([
           configuredModel,
+          'gemini-3.8-flash',
+          'gemini-3.7-flash',
+          'gemini-3.5-flash',
+          'gemini-flash-latest',
+          'gemini-2.5-flash',
           'gemini-2.0-flash',
           'gemini-1.5-flash',
-          'gemini-1.5-flash-latest',
-          'gemini-1.5-flash-8b',
-          'gemini-1.5-pro',
-          'gemini-1.5-pro-latest',
         ])
       );
 
@@ -391,9 +392,15 @@ export async function transcribeAudioWithGemini(options: TranscribeAudioOptions)
   try {
     const ai = getGeminiClient();
     if (ai) {
-      const primaryModel = config.gemini.model || 'gemini-2.0-flash';
+      const primaryModel = config.gemini.model || 'gemini-3.8-flash';
       const candidateModels = Array.from(
-        new Set([primaryModel, 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-latest'])
+        new Set([
+          primaryModel,
+          'gemini-3.8-flash',
+          'gemini-3.7-flash',
+          'gemini-3.5-flash',
+          'gemini-flash-latest',
+        ])
       );
 
       for (const targetModel of candidateModels) {
