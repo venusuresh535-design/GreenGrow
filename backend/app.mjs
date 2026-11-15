@@ -711,23 +711,765 @@ function chatRateLimiter(req, res, next) {
   return limiter(req, res, next);
 }
 
+// backend/src/data/languages.json
+var languages_default = [
+  {
+    code: "en",
+    name: "English",
+    nativeName: "English",
+    country: "United States",
+    region: "Global",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "en-US",
+    popular: true
+  },
+  {
+    code: "hi",
+    name: "Hindi",
+    nativeName: "\u0939\u093F\u0928\u094D\u0926\u0940",
+    country: "India",
+    region: "North & Central India",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: true
+  },
+  {
+    code: "kn",
+    name: "Kannada",
+    nativeName: "\u0C95\u0CA8\u0CCD\u0CA8\u0CA1",
+    country: "India",
+    region: "Karnataka",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "kn-IN",
+    popular: true
+  },
+  {
+    code: "te",
+    name: "Telugu",
+    nativeName: "\u0C24\u0C46\u0C32\u0C41\u0C17\u0C41",
+    country: "India",
+    region: "Andhra Pradesh & Telangana",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "te-IN",
+    popular: true
+  },
+  {
+    code: "ta",
+    name: "Tamil",
+    nativeName: "\u0BA4\u0BAE\u0BBF\u0BB4\u0BCD",
+    country: "India",
+    region: "Tamil Nadu",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "ta-IN",
+    popular: true
+  },
+  {
+    code: "mr",
+    name: "Marathi",
+    nativeName: "\u092E\u0930\u093E\u0920\u0940",
+    country: "India",
+    region: "Maharashtra",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "mr-IN",
+    popular: true
+  },
+  {
+    code: "ml",
+    name: "Malayalam",
+    nativeName: "\u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02",
+    country: "India",
+    region: "Kerala",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "ml-IN",
+    popular: true
+  },
+  {
+    code: "gu",
+    name: "Gujarati",
+    nativeName: "\u0A97\u0AC1\u0A9C\u0AB0\u0ABE\u0AA4\u0AC0",
+    country: "India",
+    region: "Gujarat",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "gu-IN",
+    popular: true
+  },
+  {
+    code: "bn",
+    name: "Bengali",
+    nativeName: "\u09AC\u09BE\u0982\u09B2\u09BE",
+    country: "India",
+    region: "West Bengal & Tripura",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "bn-IN",
+    popular: true
+  },
+  {
+    code: "pa",
+    name: "Punjabi",
+    nativeName: "\u0A2A\u0A70\u0A1C\u0A3E\u0A2C\u0A40",
+    country: "India",
+    region: "Punjab",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "pa-IN",
+    popular: true
+  },
+  {
+    code: "or",
+    name: "Odia",
+    nativeName: "\u0B13\u0B21\u0B3C\u0B3F\u0B06",
+    country: "India",
+    region: "Odisha",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "or-IN",
+    popular: false
+  },
+  {
+    code: "as",
+    name: "Assamese",
+    nativeName: "\u0985\u09B8\u09AE\u09C0\u09AF\u09BC\u09BE",
+    country: "India",
+    region: "Assam",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "as-IN",
+    popular: false
+  },
+  {
+    code: "ur",
+    name: "Urdu",
+    nativeName: "\u0627\u0631\u062F\u0648",
+    country: "India",
+    region: "Delhi, Uttar Pradesh, Telangana, J&K",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "ur-IN",
+    popular: true
+  },
+  {
+    code: "bho",
+    name: "Bhojpuri",
+    nativeName: "\u092D\u094B\u091C\u092A\u0941\u0930\u0940",
+    country: "India",
+    region: "Bihar & Uttar Pradesh",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "mai",
+    name: "Maithili",
+    nativeName: "\u092E\u0948\u0925\u093F\u0932\u0940",
+    country: "India",
+    region: "Bihar",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "kok",
+    name: "Konkani",
+    nativeName: "\u0915\u094B\u0902\u0915\u0923\u0940",
+    country: "India",
+    region: "Goa, Karnataka, Maharashtra",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "mr-IN",
+    popular: false
+  },
+  {
+    code: "tcy",
+    name: "Tulu",
+    nativeName: "\u0CA4\u0CC1\u0CB3\u0CC1",
+    country: "India",
+    region: "Karnataka (Dakshina Kannada/Udupi)",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "kn-IN",
+    popular: false
+  },
+  {
+    code: "kfa",
+    name: "Kodava",
+    nativeName: "\u0C95\u0CCA\u0CA1\u0CB5 \u0CA4\u0C95\u0CCD\u0C95\u0CCD",
+    country: "India",
+    region: "Karnataka (Kodagu)",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "kn-IN",
+    popular: false
+  },
+  {
+    code: "ks",
+    name: "Kashmiri",
+    nativeName: "\u06A9\u0672\u0634\u064F\u0631",
+    country: "India",
+    region: "Jammu and Kashmir",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "ur-IN",
+    popular: false
+  },
+  {
+    code: "doi",
+    name: "Dogri",
+    nativeName: "\u0921\u094B\u0917\u0930\u0940",
+    country: "India",
+    region: "Jammu and Kashmir",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "sat",
+    name: "Santali",
+    nativeName: "\u1C65\u1C5F\u1C71\u1C5B\u1C5F\u1C72\u1C64",
+    country: "India",
+    region: "Jharkhand, Odisha, West Bengal",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "ne",
+    name: "Nepali",
+    nativeName: "\u0928\u0947\u092A\u093E\u0932\u0940",
+    country: "Nepal",
+    region: "Sikkim, West Bengal, Nepal",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "ne-NP",
+    popular: false
+  },
+  {
+    code: "bgc",
+    name: "Haryanvi",
+    nativeName: "\u0939\u0930\u093F\u092F\u093E\u0923\u0935\u0940",
+    country: "India",
+    region: "Haryana",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "raj",
+    name: "Rajasthani",
+    nativeName: "\u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928\u0940",
+    country: "India",
+    region: "Rajasthan",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "hne",
+    name: "Chhattisgarhi",
+    nativeName: "\u091B\u0924\u094D\u0924\u0940\u0938\u0917\u0922\u093C\u0940",
+    country: "India",
+    region: "Chhattisgarh",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "gbm",
+    name: "Garhwali",
+    nativeName: "\u0917\u0922\u093C\u0935\u093E\u0932\u0940",
+    country: "India",
+    region: "Uttarakhand",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "kfy",
+    name: "Kumaoni",
+    nativeName: "\u0915\u0941\u092E\u093E\u090A\u0901\u0928\u0940",
+    country: "India",
+    region: "Uttarakhand",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "mni",
+    name: "Meitei (Manipuri)",
+    nativeName: "\u09AE\u09C8\u09A4\u09C8\u09B2\u09CB\u09A8\u09CD",
+    country: "India",
+    region: "Manipur",
+    type: "regional",
+    supportStatus: "available",
+    speechCode: "bn-IN",
+    popular: false
+  },
+  {
+    code: "brx",
+    name: "Bodo",
+    nativeName: "\u092C\u0921\u093C\u094B",
+    country: "India",
+    region: "Assam",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "as-IN",
+    popular: false
+  },
+  {
+    code: "kha",
+    name: "Khasi",
+    nativeName: "Ka Ktien Khasi",
+    country: "India",
+    region: "Meghalaya",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "en-IN",
+    popular: false
+  },
+  {
+    code: "grt",
+    name: "Garo",
+    nativeName: "A\xB7chik",
+    country: "India",
+    region: "Meghalaya",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "en-IN",
+    popular: false
+  },
+  {
+    code: "lus",
+    name: "Mizo",
+    nativeName: "Mizo \u1E6Dawng",
+    country: "India",
+    region: "Mizoram",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "en-IN",
+    popular: false
+  },
+  {
+    code: "trp",
+    name: "Kokborok",
+    nativeName: "Kokborok",
+    country: "India",
+    region: "Tripura",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "bn-IN",
+    popular: false
+  },
+  {
+    code: "lbj",
+    name: "Ladakhi",
+    nativeName: "\u0F63\u0F0B\u0F51\u0FAD\u0F42\u0F66\u0F0B\u0F66\u0F90\u0F51\u0F0B",
+    country: "India",
+    region: "Ladakh",
+    type: "regional",
+    supportStatus: "limited",
+    speechCode: "hi-IN",
+    popular: false
+  },
+  {
+    code: "es",
+    name: "Spanish",
+    nativeName: "Espa\xF1ol",
+    country: "Spain",
+    region: "Europe & Latin America",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "es-ES",
+    popular: true
+  },
+  {
+    code: "fr",
+    name: "French",
+    nativeName: "Fran\xE7ais",
+    country: "France",
+    region: "Europe, Canada & Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "fr-FR",
+    popular: true
+  },
+  {
+    code: "de",
+    name: "German",
+    nativeName: "Deutsch",
+    country: "Germany",
+    region: "Central Europe",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "de-DE",
+    popular: true
+  },
+  {
+    code: "pt",
+    name: "Portuguese",
+    nativeName: "Portugu\xEAs",
+    country: "Brazil",
+    region: "South America & Europe",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "pt-BR",
+    popular: true
+  },
+  {
+    code: "it",
+    name: "Italian",
+    nativeName: "Italiano",
+    country: "Italy",
+    region: "Southern Europe",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "it-IT",
+    popular: false
+  },
+  {
+    code: "nl",
+    name: "Dutch",
+    nativeName: "Nederlands",
+    country: "Netherlands",
+    region: "Western Europe",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "nl-NL",
+    popular: false
+  },
+  {
+    code: "ru",
+    name: "Russian",
+    nativeName: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439",
+    country: "Russia",
+    region: "Eastern Europe & Central Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ru-RU",
+    popular: true
+  },
+  {
+    code: "zh",
+    name: "Mandarin Chinese",
+    nativeName: "\u4E2D\u6587 (\u7B80\u4F53)",
+    country: "China",
+    region: "East Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "zh-CN",
+    popular: true
+  },
+  {
+    code: "ja",
+    name: "Japanese",
+    nativeName: "\u65E5\u672C\u8A9E",
+    country: "Japan",
+    region: "East Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ja-JP",
+    popular: true
+  },
+  {
+    code: "ko",
+    name: "Korean",
+    nativeName: "\uD55C\uAD6D\uC5B4",
+    country: "South Korea",
+    region: "East Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ko-KR",
+    popular: false
+  },
+  {
+    code: "id",
+    name: "Indonesian",
+    nativeName: "Bahasa Indonesia",
+    country: "Indonesia",
+    region: "Southeast Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "id-ID",
+    popular: true
+  },
+  {
+    code: "ms",
+    name: "Malay",
+    nativeName: "Bahasa Melayu",
+    country: "Malaysia",
+    region: "Southeast Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ms-MY",
+    popular: false
+  },
+  {
+    code: "th",
+    name: "Thai",
+    nativeName: "\u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22",
+    country: "Thailand",
+    region: "Southeast Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "th-TH",
+    popular: false
+  },
+  {
+    code: "vi",
+    name: "Vietnamese",
+    nativeName: "Ti\u1EBFng Vi\u1EC7t",
+    country: "Vietnam",
+    region: "Southeast Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "vi-VN",
+    popular: true
+  },
+  {
+    code: "fil",
+    name: "Filipino",
+    nativeName: "Filipino",
+    country: "Philippines",
+    region: "Southeast Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "fil-PH",
+    popular: false
+  },
+  {
+    code: "ar",
+    name: "Arabic",
+    nativeName: "\u0627\u0644\u0639\u0631\u0628\u064A\u0629",
+    country: "Saudi Arabia",
+    region: "Middle East & North Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ar-SA",
+    popular: true
+  },
+  {
+    code: "tr",
+    name: "Turkish",
+    nativeName: "T\xFCrk\xE7e",
+    country: "Turkey",
+    region: "Middle East & Europe",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "tr-TR",
+    popular: false
+  },
+  {
+    code: "fa",
+    name: "Persian",
+    nativeName: "\u0641\u0627\u0631\u0633\u06CC",
+    country: "Iran",
+    region: "Middle East",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "fa-IR",
+    popular: false
+  },
+  {
+    code: "sw",
+    name: "Swahili",
+    nativeName: "Kiswahili",
+    country: "Kenya",
+    region: "East Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "sw-KE",
+    popular: true
+  },
+  {
+    code: "am",
+    name: "Amharic",
+    nativeName: "\u12A0\u121B\u122D\u129B",
+    country: "Ethiopia",
+    region: "East Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "am-ET",
+    popular: false
+  },
+  {
+    code: "ha",
+    name: "Hausa",
+    nativeName: "Harshen Hausa",
+    country: "Nigeria",
+    region: "West Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ha-NG",
+    popular: false
+  },
+  {
+    code: "yo",
+    name: "Yoruba",
+    nativeName: "\xC8d\xE8 Yor\xF9b\xE1",
+    country: "Nigeria",
+    region: "West Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "yo-NG",
+    popular: false
+  },
+  {
+    code: "ig",
+    name: "Igbo",
+    nativeName: "As\u1EE5s\u1EE5 Igbo",
+    country: "Nigeria",
+    region: "West Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ig-NG",
+    popular: false
+  },
+  {
+    code: "zu",
+    name: "Zulu",
+    nativeName: "isiZulu",
+    country: "South Africa",
+    region: "Southern Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "zu-ZA",
+    popular: false
+  },
+  {
+    code: "xh",
+    name: "Xhosa",
+    nativeName: "isiXhosa",
+    country: "South Africa",
+    region: "Southern Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "xh-ZA",
+    popular: false
+  },
+  {
+    code: "af",
+    name: "Afrikaans",
+    nativeName: "Afrikaans",
+    country: "South Africa",
+    region: "Southern Africa",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "af-ZA",
+    popular: false
+  },
+  {
+    code: "ps",
+    name: "Pashto",
+    nativeName: "\u067E\u069A\u062A\u0648",
+    country: "Afghanistan",
+    region: "Central & South Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ps-AF",
+    popular: false
+  },
+  {
+    code: "sd",
+    name: "Sindhi",
+    nativeName: "\u0633\u0646\u068C\u064A",
+    country: "Pakistan",
+    region: "South Asia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "sd-PK",
+    popular: false
+  },
+  {
+    code: "cy",
+    name: "Welsh",
+    nativeName: "Cymraeg",
+    country: "United Kingdom",
+    region: "Wales",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "cy-GB",
+    popular: false
+  },
+  {
+    code: "ca",
+    name: "Catalan",
+    nativeName: "Catal\xE0",
+    country: "Spain",
+    region: "Catalonia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "ca-ES",
+    popular: false
+  },
+  {
+    code: "gl",
+    name: "Galician",
+    nativeName: "Galego",
+    country: "Spain",
+    region: "Galicia",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "gl-ES",
+    popular: false
+  },
+  {
+    code: "eu",
+    name: "Basque",
+    nativeName: "Euskara",
+    country: "Spain",
+    region: "Basque Country",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "eu-ES",
+    popular: false
+  },
+  {
+    code: "rm",
+    name: "Romansh",
+    nativeName: "Rumantsch",
+    country: "Switzerland",
+    region: "Grisons",
+    type: "international",
+    supportStatus: "limited",
+    speechCode: "de-CH",
+    popular: false
+  },
+  {
+    code: "mi",
+    name: "M\u0101ori",
+    nativeName: "Te Reo M\u0101ori",
+    country: "New Zealand",
+    region: "Oceania",
+    type: "international",
+    supportStatus: "available",
+    speechCode: "mi-NZ",
+    popular: false
+  }
+];
+
 // backend/src/middleware/validate.ts
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-var __filename = fileURLToPath(import.meta.url);
-var __dirname = path.dirname(__filename);
 var validLanguageCodes = /* @__PURE__ */ new Set();
 try {
-  const languagesPath = path.resolve(__dirname, "../data/languages.json");
-  const fallbackPath = path.resolve(__dirname, "../../src/data/languages.json");
-  const targetPath = fs.existsSync(languagesPath) ? languagesPath : fs.existsSync(fallbackPath) ? fallbackPath : "";
-  if (targetPath) {
-    const raw = fs.readFileSync(targetPath, "utf-8");
-    const langs = JSON.parse(raw);
-    langs.forEach((l) => validLanguageCodes.add(l.code.toLowerCase()));
-  }
-} catch (e) {
+  languages_default.forEach((l) => {
+    if (l && l.code) validLanguageCodes.add(l.code.toLowerCase());
+  });
+} catch {
   ["en", "hi", "kn", "te", "ta", "mr", "ml", "gu", "bn", "pa", "es", "fr", "de"].forEach((c) => validLanguageCodes.add(c));
 }
 function validateChatInput(req, res, next) {

@@ -1,24 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import languages from '../data/languages.json' with { type: 'json' };
 
 // Load valid language codes
-let validLanguageCodes = new Set<string>();
+const validLanguageCodes = new Set<string>();
 try {
-  const languagesPath = path.resolve(__dirname, '../data/languages.json');
-  const fallbackPath = path.resolve(__dirname, '../../src/data/languages.json');
-  const targetPath = fs.existsSync(languagesPath) ? languagesPath : (fs.existsSync(fallbackPath) ? fallbackPath : '');
-  if (targetPath) {
-    const raw = fs.readFileSync(targetPath, 'utf-8');
-    const langs = JSON.parse(raw);
-    langs.forEach((l: any) => validLanguageCodes.add(l.code.toLowerCase()));
-  }
-} catch (e) {
-  // Fallback defaults
+  (languages as any[]).forEach((l: any) => {
+    if (l && l.code) validLanguageCodes.add(l.code.toLowerCase());
+  });
+} catch {
   ['en', 'hi', 'kn', 'te', 'ta', 'mr', 'ml', 'gu', 'bn', 'pa', 'es', 'fr', 'de'].forEach(c => validLanguageCodes.add(c));
 }
 
