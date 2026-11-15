@@ -53,7 +53,7 @@ app.use(['/api/profile', '/profile'], profileRoutes);
 app.use(['/api/tts', '/tts'], ttsRoutes);
 
 // Root route
-app.get('/', (_req: Request, res: Response) => {
+app.get(['/', '/api'], (_req: Request, res: Response) => {
   res.json({
     message: 'GreenGrow AI Agriculture API is running.',
     healthCheck: '/api/health',
