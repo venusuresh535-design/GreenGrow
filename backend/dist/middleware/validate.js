@@ -20,14 +20,14 @@ catch (e) {
     ['en', 'hi', 'kn', 'te', 'ta', 'mr', 'ml', 'gu', 'bn', 'pa', 'es', 'fr', 'de'].forEach(c => validLanguageCodes.add(c));
 }
 export function validateChatInput(req, res, next) {
-    const { message, language } = req.body;
-    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+    const { message, image, language } = req.body;
+    if ((!message || typeof message !== 'string' || message.trim().length === 0) && !image) {
         return res.status(400).json({
             success: false,
-            error: 'Message content is required and cannot be empty.',
+            error: 'Please enter a farming question or take/upload a crop photo.',
         });
     }
-    if (message.length > 3000) {
+    if (message && typeof message === 'string' && message.length > 3000) {
         return res.status(400).json({
             success: false,
             error: 'Message is too long. Please keep your question under 3000 characters.',
@@ -41,7 +41,9 @@ export function validateChatInput(req, res, next) {
             req.body.language.code = code;
         }
     }
-    // Sanitize
-    req.body.message = message.trim();
+    // Sanitize message if string
+    if (typeof message === 'string') {
+        req.body.message = message.trim();
+    }
     next();
 }

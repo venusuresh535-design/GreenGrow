@@ -5,7 +5,7 @@ let genAIInstance = null;
 export function getGeminiClient() {
     if (!config.gemini.apiKey || config.gemini.apiKey === 'your_gemini_api_key') {
         logger.warn('GEMINI_API_KEY is not configured or is set to placeholder.');
-        throw new Error('Gemini API key is not configured. Please set GEMINI_API_KEY in backend/.env');
+        return null;
     }
     if (!genAIInstance) {
         try {
@@ -16,7 +16,7 @@ export function getGeminiClient() {
         }
         catch (err) {
             logger.error('Failed to initialize GoogleGenAI client:', err.message);
-            throw err;
+            return null;
         }
     }
     return genAIInstance;
