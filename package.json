@@ -7,7 +7,7 @@
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
     "build:frontend": "npm --prefix frontend run build",
     "build:backend": "npm --prefix backend run build",
-    "build": "npm --prefix backend run build && npm --prefix frontend install && npm --prefix frontend run build"
+    "build": "npm --prefix backend run build && npm --prefix frontend install --no-audit --no-fund --loglevel=error && npm --prefix frontend run build"
   },
   "dependencies": {
     "@google/genai": "^0.2.0",
