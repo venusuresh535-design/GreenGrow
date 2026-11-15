@@ -15,9 +15,9 @@ export interface ProcessedImage {
 
 export async function processAndCompressImage(
   fileOrBlob: File | Blob,
-  maxWidth = 1280,
-  maxHeight = 1280,
-  quality = 0.82
+  maxWidth = 960,
+  maxHeight = 960,
+  quality = 0.78
 ): Promise<ProcessedImage> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

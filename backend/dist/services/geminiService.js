@@ -75,16 +75,14 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
     try {
         const ai = getGeminiClient();
         if (ai) {
-            const configuredModel = config.gemini.model || 'gemini-3.8-flash';
+            const configuredModel = config.gemini.model || 'gemini-3.5-flash-lite';
             const candidateModels = Array.from(new Set([
                 configuredModel,
+                'gemini-3.5-flash-lite',
+                'gemini-flash-lite-latest',
                 'gemini-3.8-flash',
                 'gemini-3.7-flash',
                 'gemini-3.5-flash',
-                'gemini-flash-latest',
-                'gemini-2.5-flash',
-                'gemini-2.0-flash',
-                'gemini-1.5-flash',
             ]));
             for (const targetModel of candidateModels) {
                 try {
@@ -94,8 +92,8 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
                         contents,
                         config: {
                             systemInstruction,
-                            temperature: 0.6,
-                            maxOutputTokens: 800,
+                            temperature: 0.5,
+                            maxOutputTokens: 600,
                         },
                     });
                     const replyText = response.text || '';
@@ -338,13 +336,13 @@ export async function transcribeAudioWithGemini(options) {
     try {
         const ai = getGeminiClient();
         if (ai) {
-            const primaryModel = config.gemini.model || 'gemini-3.8-flash';
+            const primaryModel = config.gemini.model || 'gemini-3.5-flash-lite';
             const candidateModels = Array.from(new Set([
                 primaryModel,
+                'gemini-3.5-flash-lite',
+                'gemini-flash-lite-latest',
+                'gemini-3.5-transcribe',
                 'gemini-3.8-flash',
-                'gemini-3.7-flash',
-                'gemini-3.5-flash',
-                'gemini-flash-latest',
             ]));
             for (const targetModel of candidateModels) {
                 try {
