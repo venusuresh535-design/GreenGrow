@@ -7,6 +7,13 @@ import conversationRoutes from './routes/conversationRoutes.js';
 import profileRoutes from './routes/profileRoutes.js';
 import healthRoutes from './routes/healthRoutes.js';
 import ttsRoutes from './routes/ttsRoutes.js';
+// Process-level safety
+process.on('uncaughtException', (err) => {
+    console.error('CRITICAL UNCAUGHT EXCEPTION:', err);
+});
+process.on('unhandledRejection', (reason) => {
+    console.error('CRITICAL UNHANDLED REJECTION:', reason);
+});
 export const app = express();
 // Trust proxy for reverse proxies (Vercel, Cloudflare, etc.)
 app.set('trust proxy', 1);
