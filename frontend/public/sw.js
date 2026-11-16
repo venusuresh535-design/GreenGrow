@@ -3,8 +3,11 @@ const CACHE_NAME = 'greengrow-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.json',
+  '/manifest.webmanifest',
   '/icon-192.png',
   '/icon-512.png',
+  '/screenshot-mobile.png',
+  '/screenshot-desktop.png',
 ];
 
 self.addEventListener('install', (event) => {

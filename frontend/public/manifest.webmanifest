@@ -1,0 +1,43 @@
+{
+  "name": "GreenGrow - AI Farming Assistant",
+  "short_name": "GreenGrow",
+  "description": "AI-powered agriculture assistant for crop diagnostics, pest control, and regional farming guidance.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8faf8",
+  "theme_color": "#166534",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "GreenGrow Mobile Farming Assistant"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "GreenGrow Farming Dashboard"
+    }
+  ],
+  "categories": ["agriculture", "productivity", "utilities"]
+}

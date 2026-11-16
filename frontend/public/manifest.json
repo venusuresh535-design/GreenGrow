@@ -23,5 +23,21 @@
       "purpose": "any maskable"
     }
   ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "GreenGrow Mobile Farming Assistant"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "GreenGrow Farming Dashboard"
+    }
+  ],
   "categories": ["agriculture", "productivity", "utilities"]
 }
