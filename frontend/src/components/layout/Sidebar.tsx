@@ -82,6 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* New Chat Button */}
         <div className="p-3">
           <button
+            id="tour-new-chat"
             type="button"
             onClick={() => {
               onNewChat();
@@ -95,7 +96,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Conversation List */}
-        <div className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
+        <div id="tour-sidebar-history" className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
           <div className="px-2 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
             Previous Conversations ({conversations.length})
           </div>

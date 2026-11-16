@@ -27,6 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center gap-3">
         {/* Sidebar Toggle */}
         <button
+          id="tour-sidebar-toggle"
           type="button"
           onClick={onToggleSidebar}
           aria-label={isSidebarOpen ? 'Close sidebar menu' : 'Open sidebar menu'}
@@ -59,6 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center gap-2 md:gap-3">
         {/* Language Selector Pill */}
         <button
+          id="tour-language-selector"
           type="button"
           onClick={onOpenLanguageModal}
           className="flex items-center gap-1.5 px-3 py-1.5 bg-forest-50 hover:bg-forest-100/80 text-forest-800 border border-forest-200/80 rounded-xl text-xs md:text-sm font-semibold transition active:scale-95"
@@ -74,6 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* User Guide Pill */}
         {onOpenGuideModal && (
           <button
+            id="tour-guide-button"
             type="button"
             onClick={onOpenGuideModal}
             className="flex items-center gap-1.5 px-3 py-1.5 text-slate-700 hover:text-forest-800 hover:bg-forest-50 border border-slate-200/90 rounded-xl text-xs md:text-sm font-semibold transition active:scale-95 cursor-pointer shadow-2xs"
@@ -97,6 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* User / Settings Profile Pill */}
         <Link
+          id="tour-settings-link"
           to="/settings"
           className="p-2 text-slate-600 hover:text-forest-800 hover:bg-slate-100 rounded-xl transition"
           title={user ? `Signed in as ${user.email}` : isGuest ? 'Guest Farmer (Settings)' : 'Settings'}

@@ -14,6 +14,7 @@ interface FarmerHomeScreenProps {
   onOpenLanguageModal: () => void;
   onOpenPhotoModal?: () => void;
   onOpenGuideModal?: () => void;
+  onStartInteractiveTour?: () => void;
 }
 
 export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
@@ -25,6 +26,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
   onOpenLanguageModal,
   onOpenPhotoModal,
   onOpenGuideModal,
+  onStartInteractiveTour,
 }) => {
   const { selectedLanguage, country, region } = usePreferences();
 
@@ -60,6 +62,18 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
             </span>
           )}
 
+          {onStartInteractiveTour && (
+            <button
+              type="button"
+              onClick={onStartInteractiveTour}
+              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 bg-forest-700 text-white rounded-full shadow-xs hover:bg-forest-800 transition active:scale-95 cursor-pointer"
+              title="Start live interactive on-screen walkthrough"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
+              <span>🎯 Live App Tour</span>
+            </button>
+          )}
+
           {onOpenGuideModal && (
             <button
               type="button"
@@ -68,7 +82,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
               title="First-time farmer guide and app tour"
             >
               <BookOpen className="w-3.5 h-3.5 text-forest-600" />
-              <span>📖 First-Time Guide</span>
+              <span>📖 Guide Cards</span>
             </button>
           )}
         </div>

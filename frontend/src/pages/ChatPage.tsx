@@ -5,6 +5,7 @@ import { ChatWindow } from '../components/chat/ChatWindow';
 import { ChatInput } from '../components/chat/ChatInput';
 import { CameraModal } from '../components/camera/CameraModal';
 import { UserGuideModal } from '../components/guide/UserGuideModal';
+import { InteractiveTour } from '../components/guide/InteractiveTour';
 import { SpeechRecognitionStatus } from '../components/voice/SpeechRecognitionStatus';
 import { SpeechPlayerBar } from '../components/voice/SpeechPlayerBar';
 import { OnboardingModal } from '../components/farmer/OnboardingModal';
@@ -30,6 +31,13 @@ export const ChatPage: React.FC = () => {
   const [isLangModalOpen, setIsLangModalOpen] = useState(false);
   const [isCameraModalOpen, setIsCameraModalOpen] = useState(false);
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
+  const [isTourActive, setIsTourActive] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1024;
+    }
+    return false;
+  });
   const [attachedPhoto, setAttachedPhoto] = useState<ProcessedImage | null>(null);
 
   // Check if first-time user to automatically present the interactive guide
@@ -242,6 +250,10 @@ export const ChatPage: React.FC = () => {
       onNewChat={handleNewChat}
       onDeleteConversation={handleDeleteConversation}
       onOpenGuideModal={() => setIsGuideModalOpen(true)}
+      isSidebarOpen={isSidebarOpen}
+      onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+      onCloseSidebar={() => setIsSidebarOpen(false)}
+      onOpenLanguageModal={() => setIsLangModalOpen(true)}
     >
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         {/* Main Content: FarmerHomeScreen if empty, or ChatWindow if active conversation */}
@@ -260,6 +272,7 @@ export const ChatPage: React.FC = () => {
               onOpenLanguageModal={() => setIsLangModalOpen(true)}
               onOpenPhotoModal={() => setIsCameraModalOpen(true)}
               onOpenGuideModal={() => setIsGuideModalOpen(true)}
+              onStartInteractiveTour={() => setIsTourActive(true)}
             />
           ) : (
             <ChatWindow
@@ -380,6 +393,20 @@ export const ChatPage: React.FC = () => {
       <UserGuideModal
         isOpen={isGuideModalOpen}
         onClose={() => setIsGuideModalOpen(false)}
+        onStartInteractiveTour={() => {
+          setIsGuideModalOpen(false);
+          setIsTourActive(true);
+        }}
+      />
+
+      {/* Live Interactive Spotlight Tour */}
+      <InteractiveTour
+        isActive={isTourActive}
+        onClose={() => setIsTourActive(false)}
+        onOpenLanguageModal={() => setIsLangModalOpen(true)}
+        onOpenPhotoModal={() => setIsCameraModalOpen(true)}
+        onOpenSidebar={() => setIsSidebarOpen(true)}
+        onCloseSidebar={() => setIsSidebarOpen(false)}
       />
 
       {/* Language Selector Modal */}

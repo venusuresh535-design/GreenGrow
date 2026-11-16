@@ -13,6 +13,10 @@ interface ChatLayoutProps {
   onNewChat: () => void;
   onDeleteConversation: (id: string) => void;
   onOpenGuideModal?: () => void;
+  isSidebarOpen?: boolean;
+  onToggleSidebar?: () => void;
+  onCloseSidebar?: () => void;
+  onOpenLanguageModal?: () => void;
 }
 
 export const ChatLayout: React.FC<ChatLayoutProps> = ({
@@ -23,8 +27,12 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   onNewChat,
   onDeleteConversation,
   onOpenGuideModal,
+  isSidebarOpen,
+  onToggleSidebar,
+  onCloseSidebar,
+  onOpenLanguageModal,
 }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+  const [internalSidebarOpen, setInternalSidebarOpen] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth >= 1024;
     }
@@ -32,6 +40,11 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   });
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [conversationToDelete, setConversationToDelete] = useState<string | null>(null);
+
+  const effectiveSidebarOpen = isSidebarOpen !== undefined ? isSidebarOpen : internalSidebarOpen;
+  const handleToggleSidebar = onToggleSidebar || (() => setInternalSidebarOpen((prev) => !prev));
+  const handleCloseSidebar = onCloseSidebar || (() => setInternalSidebarOpen(false));
+  const handleOpenLanguage = onOpenLanguageModal || (() => setIsLanguageModalOpen(true));
 
   const confirmDelete = () => {
     if (conversationToDelete) {
@@ -44,8 +57,8 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
     <div className="flex h-screen w-screen overflow-hidden bg-[#f8faf8]">
       {/* Sidebar Drawer */}
       <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
+        isOpen={effectiveSidebarOpen}
+        onClose={handleCloseSidebar}
         conversations={conversations}
         activeConversationId={activeConversationId}
         onSelectConversation={onSelectConversation}
@@ -57,10 +70,10 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden relative">
         <Header
-          isSidebarOpen={isSidebarOpen}
-          onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+          isSidebarOpen={effectiveSidebarOpen}
+          onToggleSidebar={handleToggleSidebar}
           onNewChat={onNewChat}
-          onOpenLanguageModal={() => setIsLanguageModalOpen(true)}
+          onOpenLanguageModal={handleOpenLanguage}
           onOpenGuideModal={onOpenGuideModal}
         />
 

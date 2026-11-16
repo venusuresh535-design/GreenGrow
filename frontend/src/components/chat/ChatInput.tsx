@@ -136,6 +136,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       )}
 
       <form
+        id="tour-input-box"
         onSubmit={handleSubmit}
         className="relative flex items-end gap-2 bg-white rounded-3xl p-2.5 shadow-lg border border-slate-200/90 focus-within:border-forest-500 focus-within:ring-2 focus-within:ring-forest-500/20 transition-all"
       >
@@ -143,6 +144,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         {onOpenPhotoModal && (
           <div className="flex-shrink-0 mb-1">
             <button
+              id="tour-camera-button"
               type="button"
               onClick={onOpenPhotoModal}
               disabled={isLoading}
@@ -157,6 +159,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         {/* Microphone toggle inside input bar */}
         <div className="flex-shrink-0 mb-1">
           <button
+            id="tour-mic-button"
             type="button"
             onClick={isListening ? onStopListening : onStartListening}
             disabled={!isSpeechSupported || isLoading}
