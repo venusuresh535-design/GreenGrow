@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AGRICULTURE_CATEGORIES } from '../../data/categories';
 import { AgricultureCategory } from '../../types';
 import { CategoryQuestions } from './CategoryQuestions';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface AgricultureCategoryCardsProps {
   onSelectQuestion: (question: string) => void;
@@ -11,12 +12,29 @@ export const AgricultureCategoryCards: React.FC<AgricultureCategoryCardsProps> =
   onSelectQuestion,
 }) => {
   const [activeCategory, setActiveCategory] = useState<AgricultureCategory | null>(null);
+  const { t } = usePreferences();
+
+  const getCategoryTitle = (cat: AgricultureCategory) => {
+    if (cat.id === 'crop') return t('crop_calendar');
+    if (cat.id === 'soil' || cat.id === 'fertilizer') return t('soil_fertilizer');
+    if (cat.id === 'pests') return t('crop_diseases');
+    if (cat.id === 'water') return t('drip_irrigation');
+    return cat.title;
+  };
+
+  const getCategoryDesc = (cat: AgricultureCategory) => {
+    if (cat.id === 'crop') return t('crop_calendar_desc');
+    if (cat.id === 'soil' || cat.id === 'fertilizer') return t('soil_fertilizer_desc');
+    if (cat.id === 'pests') return t('crop_diseases_desc');
+    if (cat.id === 'water') return t('drip_irrigation_desc');
+    return cat.description;
+  };
 
   return (
     <div className="w-full">
       <div className="flex items-center justify-between mb-3 px-1">
         <h3 className="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
-          <span>🌾</span> Picture Topics for Quick Advice
+          <span>🌾</span> {t('or_choose_topic')}
         </h3>
         <span className="text-xs text-slate-500 font-medium hidden sm:inline">
           Tap any card to see questions
@@ -35,10 +53,10 @@ export const AgricultureCategoryCards: React.FC<AgricultureCategoryCardsProps> =
               {cat.icon}
             </div>
             <span className="font-bold text-slate-900 text-sm md:text-base leading-tight group-hover:text-forest-800 transition">
-              {cat.title}
+              {getCategoryTitle(cat)}
             </span>
             <span className="text-xs text-slate-500 line-clamp-2 mt-1 hidden sm:block">
-              {cat.description}
+              {getCategoryDesc(cat)}
             </span>
             <span className="mt-2 text-[11px] font-semibold text-forest-700 bg-forest-50 px-2 py-0.5 rounded-full inline-block group-hover:bg-forest-100">
               {cat.questions.length} Questions →

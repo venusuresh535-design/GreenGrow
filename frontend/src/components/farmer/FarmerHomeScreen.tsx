@@ -28,7 +28,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
   onOpenGuideModal,
   onStartInteractiveTour,
 }) => {
-  const { selectedLanguage, country, region } = usePreferences();
+  const { selectedLanguage, country, region, t } = usePreferences();
 
   return (
     <div className="w-full max-w-3xl mx-auto py-4 md:py-8 px-4 flex flex-col items-center">
@@ -36,13 +36,13 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
       <div className="text-center mb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-forest-100 text-forest-800 rounded-full text-xs font-semibold mb-3 border border-forest-200">
           <span>🌱</span>
-          <span>Smarter Farming. Stronger Communities. A Greener World.</span>
+          <span>{t('tagline')}</span>
         </div>
         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-          How can GreenGrow help your farm today?
+          {t('home_headline')}
         </h1>
         <p className="text-sm md:text-base text-slate-600 mt-2 max-w-lg mx-auto">
-          Ask any farming question by speaking, typing, or uploading a plant photo. Answers are powered by Google Gemini in your chosen language.
+          {t('home_subtitle')}
         </p>
 
         {/* Current Language & Region Pill */}
@@ -52,7 +52,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
             className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 bg-white border border-forest-300 text-forest-800 rounded-full shadow-xs hover:bg-forest-50 transition"
           >
             <Globe2 className="w-3.5 h-3.5 text-forest-600" />
-            <span>Response Language:</span>
+            <span>{t('response_language')}:</span>
             <span className="font-bold underline">{selectedLanguage.name} ({selectedLanguage.nativeName})</span>
           </button>
 
@@ -70,7 +70,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
               title="Start live interactive on-screen walkthrough"
             >
               <Sparkles className="w-3.5 h-3.5 text-emerald-300" />
-              <span>🎯 Live App Tour</span>
+              <span>🎯 {t('live_app_tour')}</span>
             </button>
           )}
 
@@ -82,7 +82,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
               title="First-time farmer guide and app tour"
             >
               <BookOpen className="w-3.5 h-3.5 text-forest-600" />
-              <span>📖 Guide Cards</span>
+              <span>📖 {t('guide_cards')}</span>
             </button>
           )}
         </div>
@@ -95,13 +95,13 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
           <div className="absolute top-0 right-0 w-32 h-32 bg-forest-600/20 rounded-full blur-2xl pointer-events-none" />
           <div>
             <div className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-forest-700/60 text-forest-200 rounded-full text-[10px] font-semibold mb-2">
-              <span>🎙️</span> Voice Assistant
+              <span>🎙️</span> {t('tour_step_4_title')}
             </div>
             <h2 className="text-lg md:text-xl font-bold mb-1">
-              Tap Microphone &amp; Speak
+              {t('voice_card_title')}
             </h2>
             <p className="text-xs text-forest-200 mb-4 max-w-xs mx-auto">
-              Speak in <strong className="text-white">{selectedLanguage.name}</strong> to ask crop or soil questions.
+              {t('voice_card_desc')}
             </p>
           </div>
 
@@ -117,7 +117,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
           </div>
 
           <p className="text-xs text-forest-300 font-medium">
-            {isListening ? 'Listening now... Click to stop' : 'Click to start speaking'}
+            {isListening ? t('stop_listening') : t('voice_card_title')}
           </p>
         </div>
 
@@ -126,13 +126,13 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-teal-500/20 rounded-full blur-2xl pointer-events-none" />
           <div>
             <div className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-teal-700/60 text-teal-200 rounded-full text-[10px] font-semibold mb-2">
-              <span>📷</span> AI Vision Diagnosis
+              <span>📷</span> {t('crop_doctor_title')}
             </div>
             <h2 className="text-lg md:text-xl font-bold mb-1">
-              Snap Crop / Plant Photo
+              {t('take_upload_photo')}
             </h2>
             <p className="text-xs text-teal-200 mb-4 max-w-xs mx-auto">
-              Don't know the pest or disease? Take a photo of the sick leaf or crop for instant AI diagnosis.
+              {t('crop_doctor_desc')}
             </p>
           </div>
 
@@ -148,7 +148,7 @@ export const FarmerHomeScreen: React.FC<FarmerHomeScreenProps> = ({
           </div>
 
           <p className="text-xs text-teal-200 font-medium">
-            Tap camera to snap or upload leaf photo
+            {t('take_photo_title')}
           </p>
         </div>
       </div>

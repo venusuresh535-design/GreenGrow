@@ -32,7 +32,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   attachedPhoto,
   onRemovePhoto,
 }) => {
-  const { selectedLanguage } = usePreferences();
+  const { selectedLanguage, t } = usePreferences();
   const [internalText, setInternalText] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -87,14 +87,14 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             className="inline-flex items-center gap-1.5 font-semibold text-forest-900 bg-forest-50 hover:bg-forest-100 px-3 py-1 rounded-xl border border-forest-200 transition active:scale-95 shadow-2xs"
             title="Change AI conversation language"
           >
-            <span>🌐 AI Speaks &amp; Answers in:</span>
+            <span>🌐 {t('ai_speaks_in')}</span>
             <span className="font-bold underline decoration-forest-400">
               {selectedLanguage.name} ({selectedLanguage.nativeName})
             </span>
             <span className="text-forest-600 font-bold">▾</span>
           </button>
           <span className="text-[11px] text-slate-400 hidden sm:inline">
-            Tap button to switch regional language
+            {t('tap_to_switch')}
           </span>
         </div>
       )}
@@ -112,14 +112,14 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-bold text-forest-900 truncate">
-                🌱 Crop Photo Attached
+                🌱 {t('crop_photo_attached')}
               </span>
               <span className="text-[10px] text-emerald-800 bg-emerald-200 px-1.5 py-0.5 rounded-full font-bold">
-                Ready for Diagnosis
+                {t('ready_for_diagnosis')}
               </span>
             </div>
             <p className="text-[11px] text-slate-600 truncate mt-0.5">
-              Click Send to analyze, or type optional details below.
+              {t('photo_tip')}
             </p>
           </div>
           {onRemovePhoto && (
@@ -148,7 +148,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               type="button"
               onClick={onOpenPhotoModal}
               disabled={isLoading}
-              title="Take plant photo or upload crop image for AI diagnosis"
+              title={t('take_photo_title')}
               className="p-2.5 rounded-2xl bg-forest-100 text-forest-800 hover:bg-forest-200 active:scale-95 transition-all duration-200 flex items-center justify-center cursor-pointer disabled:opacity-40"
             >
               <Camera className="w-5 h-5" />
@@ -165,10 +165,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             disabled={!isSpeechSupported || isLoading}
             title={
               !isSpeechSupported
-                ? 'Voice input not supported in this browser'
+                ? t('voice_not_supported')
                 : isListening
-                  ? 'Stop listening'
-                  : `Speak in ${selectedLanguage.name}`
+                  ? t('stop_listening')
+                  : t('speak_in', { lang: selectedLanguage.name })
             }
             className={`p-2.5 rounded-2xl transition-all duration-200 flex items-center justify-center ${
               !isSpeechSupported
@@ -195,8 +195,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           onKeyDown={handleKeyDown}
           placeholder={
             attachedPhoto
-              ? `Optional: Add notes (e.g. leaves turning yellow, seen in tomato field)... or just tap Send!`
-              : `Ask GreenGrow in ${selectedLanguage.name} (${selectedLanguage.nativeName})...`
+              ? t('photo_placeholder')
+              : t('ask_greengrow', { lang: `${selectedLanguage.name} (${selectedLanguage.nativeName})` })
           }
           disabled={isLoading}
           className="flex-1 max-h-32 py-2 px-2 resize-none bg-transparent text-sm md:text-base text-slate-800 placeholder:text-slate-400 focus:outline-none leading-relaxed"
@@ -206,7 +206,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         <button
           type="submit"
           disabled={!canSubmit}
-          aria-label="Send question or photo"
+          aria-label={t('send')}
           className="p-3 bg-forest-700 hover:bg-forest-800 disabled:bg-slate-200 text-white disabled:text-slate-400 rounded-2xl shadow-sm transition-all duration-200 active:scale-95 disabled:active:scale-100 disabled:cursor-not-allowed flex-shrink-0 mb-1 cursor-pointer"
         >
           <Send className="w-5 h-5" />

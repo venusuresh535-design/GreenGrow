@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Check, RotateCcw } from 'lucide-react';
 import { ListenButton } from '../voice/ListenButton';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface MessageActionsProps {
   content: string;
@@ -28,6 +29,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
   onSetSpeed,
 }) => {
   const [copied, setCopied] = useState(false);
+  const { t } = usePreferences();
 
   const handleCopy = async () => {
     try {
@@ -81,12 +83,12 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
         {copied ? (
           <>
             <Check className="w-3.5 h-3.5 text-forest-600" />
-            <span className="text-forest-700 font-medium">Copied!</span>
+            <span className="text-forest-700 font-medium">{t('copied')}</span>
           </>
         ) : (
           <>
             <Copy className="w-3.5 h-3.5" />
-            <span>Copy</span>
+            <span>{t('copy')}</span>
           </>
         )}
       </button>
@@ -100,7 +102,7 @@ export const MessageActions: React.FC<MessageActionsProps> = ({
           title="Regenerate Gemini answer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
-          <span>Regenerate</span>
+          <span>{t('try_again')}</span>
         </button>
       )}
     </div>

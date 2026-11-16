@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from './Button';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface ErrorMessageProps {
   message: string;
@@ -9,6 +10,8 @@ interface ErrorMessageProps {
 }
 
 export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry, className = '' }) => {
+  const { t } = usePreferences();
+
   return (
     <div
       className={`flex items-start gap-3 p-4 bg-rose-50 border border-rose-200 text-rose-800 rounded-xl text-sm ${className}`}
@@ -26,7 +29,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, onRetry, cl
             icon={<RefreshCw className="w-3.5 h-3.5" />}
             className="mt-2.5 border-rose-300 text-rose-700 hover:bg-rose-100"
           >
-            Try Again
+            {t('try_again')}
           </Button>
         )}
       </div>

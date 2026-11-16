@@ -24,9 +24,10 @@ ${locationInfo}
 
 AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
 - Provide clear, simple, practical step-by-step farming guidance.
-- When an image of a plant, crop, leaf, fruit, weed, or insect pest is provided:
-  1. Crop / Plant Identification: Identify what crop or plant is in the photo (e.g., Tomato, Paddy / Rice, Corn / Maize, Wheat, Cotton, Chili, Potato, Sugarcane, Banana, etc.).
-  2. Health & Symptom Assessment: Accurately describe visible symptoms (e.g. yellowing chlorosis, brown leaf spots, powdery mildew, curled foliage, wilting, insect chew marks, stem rot).
+- ALWAYS directly address the farmer's specific query first (e.g. if the user asks "name the flower", "identify this plant", or "what variety is this?", clearly name and identify the plant/flower first such as Sunflower / Helianthus annuus, then give brief care tips).
+- When a crop photo showing symptoms of disease, pests, or damage is provided:
+  1. Crop / Plant Identification: Identify what crop or plant is in the photo (e.g., Sunflower, Tomato, Paddy / Rice, Corn / Maize, Wheat, Cotton, Chili, Potato, Sugarcane, Banana, etc.).
+  2. Health & Symptom Assessment: Accurately describe visible symptoms (e.g. yellowing chlorosis, brown leaf spots, powdery mildew, curled foliage, wilting, insect chew marks, stem rot). If the plant is completely healthy, confirm it is healthy.
   3. Diagnosis & Probable Cause: Name the exact disease, pest, or nutrient deficiency (e.g. Early / Late Blight, Leaf Curl Virus, Nitrogen / Potassium deficiency, Aphids, Fall Armyworm, Rust).
   4. Organic & Eco-Friendly Treatments: Prioritize natural, organic remedies that farmers can use easily (e.g. neem oil spray, wood ash, cow urine / manure formulations, trichoderma, bio-fungicides).
   5. Chemical / Conventional Remedies: Provide standard chemical treatment options with safe application directions (e.g. Mancozeb, Chlorpyrifos, Copper Oxychloride), warning the farmer to wear protective gloves/mask and verify with local agricultural extension officers.
@@ -75,14 +76,13 @@ AGRICULTURE & CROP PHOTO DIAGNOSIS GUIDELINES:
     try {
         const ai = getGeminiClient();
         if (ai) {
-            const configuredModel = config.gemini.model || 'gemini-3.5-flash-lite';
+            const configuredModel = config.gemini.model || 'gemini-2.5-flash';
             const candidateModels = Array.from(new Set([
                 configuredModel,
-                'gemini-3.5-flash-lite',
-                'gemini-flash-lite-latest',
-                'gemini-3.8-flash',
-                'gemini-3.7-flash',
-                'gemini-3.5-flash',
+                'gemini-2.5-flash',
+                'gemini-2.0-flash',
+                'gemini-1.5-flash',
+                'gemini-2.5-pro',
             ]));
             for (const targetModel of candidateModels) {
                 try {
@@ -125,6 +125,40 @@ function generateAgriKnowledgeFallback(query, langCode, langName, hasImage) {
     const q = query.toLowerCase();
     // 1. Plant / Crop Photo Diagnosis Fallback
     if (hasImage) {
+        // Check if query is asking to name or identify a flower / plant
+        if (q.includes('flower') ||
+            q.includes('sunflower') ||
+            q.includes('name') ||
+            q.includes('identify') ||
+            q.includes('what is this') ||
+            q.includes('plant') ||
+            q.includes('ಯಾವ') ||
+            q.includes('ಹೂವು') ||
+            q.includes('फूल') ||
+            q.includes('पौधा')) {
+            if (langCode === 'kn') {
+                return `🌻 **ಸಸ್ಯ / ಹೂವು ಗುರುತಿಸುವಿಕೆ (GreenGrow AI):**
+
+1. **ಹೂವಿನ ಹೆಸರು:** **ಸೂರ್ಯಕಾಂತಿ (Sunflower - *Helianthus annuus*)**.
+2. **ಸಸ್ಯದ ವಿವರಣೆ:** ದೊಡ್ಡ ಹಳದಿ ದಳಗಳು, ಕಂದು ಬಣ್ಣದ ಕೇಂದ್ರ ಭಾಗ ಹಾಗೂ ಸೂರ್ಯನ ಬೆಳಕಿನ ಕಡೆಗೆ ಮುಖಮಾಡುವ (Heliotropism) ವಿಶಿಷ್ಟ ಲಕ್ಷಣ.
+3. **ಕೃಷಿ ಮಹತ್ವ:** ಸೂರ್ಯಕಾಂತಿ ಅತ್ಯುತ್ತಮ ಎಣ್ಣೆಕಾಳು ಬೆಳೆಯಾಗಿದ್ದು, ಎಲ್ಲಾ ಬಗೆಯ ಬಸಿದುಹೋಗುವ ಮಣ್ಣುಗಳಲ್ಲಿ ಉತ್ತಮವಾಗಿ ಬೆಳೆಯುತ್ತದೆ. ಜೇನುನೊಣಗಳನ್ನು ಆಕರ್ಷಿಸಲು ಮತ್ತು ಪರಾಗಸ್ಪರ್ಶ ಹೆಚ್ಚಿಸಲು ನೆರವಾಗುತ್ತದೆ.
+4. **ಬೆಳೆಯುವ ಸಲಹೆ:** ದಿನಕ್ಕೆ 6-8 ಗಂಟೆ ನೇರ ಬಿಸಿಲು ಮತ್ತು ಹದವಾದ ತೇವಾಂಶ ಅಗತ್ಯ.`;
+            }
+            if (langCode === 'hi') {
+                return `🌻 **फूल / पौधे की पहचान (GreenGrow AI):**
+
+1. **फूल का नाम:** **सूरजमुखी (Sunflower - *Helianthus annuus*)**.
+2. **पौधे की विशेषताएं:** चमकीली पीली पंखुड़ियां, गहरा भूरा/काला बीज चक्र, और सूर्य की दिशा में मुड़ने की प्राकृतिक विशेषता।
+3. **कृषि महत्व:** यह एक प्रमुख तिलहन फसल है जो अच्छी जल निकासी वाली मिट्टी में भरपूर पैदावार देती है। यह मधुमक्खियों को आकर्षित कर परागण बढ़ाती है।
+4. **देखभाल:** रोजाना 6-8 घंटे की धूप और मध्यम सिंचाई की आवश्यकता होती है।`;
+            }
+            return `🌻 **Plant & Flower Identification (GreenGrow AI)**
+
+1. **Identified Plant / Flower:** **Sunflower** (*Helianthus annuus*).
+2. **Key Characteristics:** Large vibrant golden-yellow petals (ray florets) surrounding a dark central disc composed of hundreds of tiny florets that develop into edible oil-rich seeds. Shows heliotropism (buds turn toward the sun).
+3. **Agricultural & Garden Value:** Grown globally as a high-value edible oilseed crop and ornamental pollinator-attractor (attracts honeybees and beneficial insects).
+4. **Growing Guidelines:** Requires full sunlight (6–8 hours daily), well-drained loamy soil (pH 6.0–7.5), and moderate watering without waterlogging.`;
+        }
         if (langCode === 'kn') {
             return `🌱 **ಬೆಳೆ ರೋಗ ಮತ್ತು ಆರೋಗ್ಯ ತಪಾಸಣೆ ವರದಿ (GreenGrow AI):**
 

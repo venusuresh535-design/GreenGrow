@@ -1,5 +1,6 @@
 import React from 'react';
 import { Volume2, Square, VolumeX } from 'lucide-react';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface ListenButtonProps {
   text: string;
@@ -15,6 +16,8 @@ export const ListenButton: React.FC<ListenButtonProps> = ({
   onSpeak,
   onStop,
 }) => {
+  const { t } = usePreferences();
+
   if (!isSupported) {
     return (
       <span
@@ -36,17 +39,17 @@ export const ListenButton: React.FC<ListenButtonProps> = ({
           ? 'bg-rose-100 text-rose-700 hover:bg-rose-200 border border-rose-300 animate-pulse'
           : 'bg-forest-50 text-forest-800 hover:bg-forest-100 border border-forest-200 hover:border-forest-300'
       }`}
-      title={isSpeaking ? 'Stop listening' : 'Listen to this farming answer'}
+      title={isSpeaking ? t('stop_listening') : t('listen')}
     >
       {isSpeaking ? (
         <>
           <Square className="w-3.5 h-3.5 fill-current" />
-          <span>Stop Audio</span>
+          <span>{t('stop')}</span>
         </>
       ) : (
         <>
           <Volume2 className="w-3.5 h-3.5 text-forest-700" />
-          <span>Listen</span>
+          <span>{t('listen')}</span>
         </>
       )}
     </button>

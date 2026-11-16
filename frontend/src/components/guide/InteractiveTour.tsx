@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   ArrowUpRight,
 } from 'lucide-react';
+import { usePreferences } from '../../context/PreferencesContext';
 
 export interface TourStep {
   id: string;
@@ -46,6 +47,7 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
   onOpenSidebar,
   onCloseSidebar,
 }) => {
+  const { t } = usePreferences();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number; placement: 'top' | 'bottom' }>({
@@ -58,13 +60,12 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
     {
       id: 'sidebar-toggle',
       selector: '#tour-sidebar-toggle',
-      title: 'Chat History & Menu',
+      title: t('tour_step_1_title'),
       badge: 'Step 1: Navigation',
       badgeColor: 'bg-emerald-100 text-emerald-800',
       icon: Menu,
-      description:
-        'Tap the 3 horizontal lines here to slide open your Chat History drawer. You can view all past crop consultations, delete old queries, or start fresh for a different field.',
-      actionButtonLabel: 'Slide Open History',
+      description: t('tour_step_1_desc'),
+      actionButtonLabel: t('tour_step_1_btn'),
       onAction: () => {
         if (onOpenSidebar) onOpenSidebar();
       },
@@ -72,13 +73,12 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
     {
       id: 'language-selector',
       selector: '#tour-language-selector',
-      title: 'Regional Language Selector',
+      title: t('tour_step_2_title'),
       badge: 'Step 2: Multilingual AI',
       badgeColor: 'bg-blue-100 text-blue-800',
       icon: Globe2,
-      description:
-        'Tap this pill to switch languages. GreenGrow speaks and answers in 15+ Indian and world languages (Kannada, Hindi, Tamil, Telugu, Russian, Spanish, English). All advice is generated in this chosen language.',
-      actionButtonLabel: 'Open Language Selector',
+      description: t('tour_step_2_desc'),
+      actionButtonLabel: t('tour_step_2_btn'),
       onAction: () => {
         if (onOpenLanguageModal) onOpenLanguageModal();
       },
@@ -86,13 +86,12 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
     {
       id: 'camera-button',
       selector: '#tour-camera-button',
-      title: 'Crop Doctor (AI Vision)',
+      title: t('tour_step_3_title'),
       badge: 'Step 3: Crop Doctor',
       badgeColor: 'bg-teal-100 text-teal-800',
       icon: Camera,
-      description:
-        'Have a diseased leaf, damaged fruit, or unknown pest? Tap this camera button to snap or upload a crop photo for instant AI diagnosis and organic + chemical treatment plans.',
-      actionButtonLabel: 'Try Crop Camera',
+      description: t('tour_step_3_desc'),
+      actionButtonLabel: t('tour_step_3_btn'),
       onAction: () => {
         if (onOpenPhotoModal) onOpenPhotoModal();
       },
@@ -101,45 +100,41 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
     {
       id: 'mic-button',
       selector: '#tour-mic-button',
-      title: 'Hands-Free Voice Assistant',
+      title: t('tour_step_4_title'),
       badge: 'Step 4: Voice First',
       badgeColor: 'bg-forest-100 text-forest-800',
       icon: Mic,
-      description:
-        'Designed for the field! Tap this microphone and speak your farming questions naturally in your mother tongue without typing. GreenGrow listens and reads its answers aloud to you.',
+      description: t('tour_step_4_desc'),
       preferredPlacement: 'top',
     },
     {
       id: 'input-box',
       selector: '#tour-input-box',
-      title: 'Farming Question Input',
+      title: t('tour_step_5_title'),
       badge: 'Step 5: Ask Any Question',
       badgeColor: 'bg-amber-100 text-amber-800',
       icon: MessageSquare,
-      description:
-        'Type or review your question here. Ask about fertilizer dosages (NPK), drip irrigation, soil preparation, pest outbreaks, or planting calendars for your crop.',
+      description: t('tour_step_5_desc'),
       preferredPlacement: 'top',
     },
     {
       id: 'settings-link',
       selector: '#tour-settings-link',
-      title: 'Settings, Climate & Speech Speed',
+      title: t('tour_step_6_title'),
       badge: 'Step 6: Personalization',
       badgeColor: 'bg-purple-100 text-purple-800',
       icon: Settings,
-      description:
-        'Configure your Country, State/Region, and audio speaking speed (0.75x to 2x) so agricultural advice matches your local soil and climate.',
+      description: t('tour_step_6_desc'),
       preferredPlacement: 'bottom',
     },
     {
       id: 'guide-button',
       selector: '#tour-guide-button',
-      title: 'Quick Guide & App Tour',
+      title: t('tour_step_7_title'),
       badge: 'Step 7: Help Center',
       badgeColor: 'bg-rose-100 text-rose-800',
       icon: HelpCircle,
-      description:
-        'Tap this Guide button anytime you need to restart this interactive tour or view the full farming manual and tips.',
+      description: t('tour_step_7_desc'),
       preferredPlacement: 'bottom',
     },
   ];
@@ -379,7 +374,7 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
                   className="p-1.5 sm:px-3 sm:py-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-xl transition cursor-pointer flex items-center gap-1"
                 >
                   <ChevronLeft className="w-4 h-4" />
-                  <span className="hidden sm:inline">Back</span>
+                  <span className="hidden sm:inline">{t('back')}</span>
                 </button>
               )}
 
@@ -389,7 +384,7 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
                   onClick={handleNext}
                   className="px-4 py-1.5 text-xs font-bold text-white bg-forest-700 hover:bg-forest-800 rounded-xl shadow-xs transition active:scale-95 cursor-pointer flex items-center gap-1.5"
                 >
-                  <span>Next Section</span>
+                  <span>{t('next_section')}</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -399,7 +394,7 @@ export const InteractiveTour: React.FC<InteractiveTourProps> = ({
                   className="px-4 py-1.5 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl shadow-xs transition active:scale-95 cursor-pointer flex items-center gap-1.5"
                 >
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Start Farming!</span>
+                  <span>{t('start_farming')}</span>
                 </button>
               )}
             </div>

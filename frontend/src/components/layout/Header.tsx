@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenGuideModal,
   isSidebarOpen = false,
 }) => {
-  const { selectedLanguage } = usePreferences();
+  const { selectedLanguage, t } = usePreferences();
   const { user, isGuest } = useAuth();
 
   return (
@@ -51,7 +51,7 @@ export const Header: React.FC<HeaderProps> = ({
               Green<span className="text-forest-700">Grow</span>
             </span>
             <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wider block">
-              AI Farming Assistant
+              {t('ai_assistant_sub')}
             </span>
           </div>
         </Link>
@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
           title="Change response language"
         >
           <Globe2 className="w-4 h-4 text-forest-600 flex-shrink-0" />
-          <span className="hidden sm:inline text-forest-700">Language:</span>
+          <span className="hidden sm:inline text-forest-700">{t('language')}:</span>
           <span className="font-bold underline decoration-forest-400">
             {selectedLanguage.name} ({selectedLanguage.nativeName})
           </span>
@@ -83,7 +83,7 @@ export const Header: React.FC<HeaderProps> = ({
             title="First-time user guide & how to use GreenGrow"
           >
             <HelpCircle className="w-4 h-4 text-forest-700" />
-            <span className="hidden sm:inline">Guide</span>
+            <span className="hidden sm:inline">{t('guide')}</span>
           </button>
         )}
 
@@ -95,7 +95,7 @@ export const Header: React.FC<HeaderProps> = ({
           title="Start a new conversation"
         >
           <Plus className="w-4 h-4" />
-          <span>New Chat</span>
+          <span>{t('new_chat')}</span>
         </button>
 
         {/* User / Settings Profile Pill */}

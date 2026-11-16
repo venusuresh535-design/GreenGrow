@@ -2,6 +2,7 @@ import React from 'react';
 import { Sprout, User } from 'lucide-react';
 import { ChatMessage as ChatMessageType } from '../../types';
 import { MessageActions } from './MessageActions';
+import { usePreferences } from '../../context/PreferencesContext';
 
 interface ChatMessageProps {
   message: ChatMessageType;
@@ -27,6 +28,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   onSetSpeed,
 }) => {
   const isAssistant = message.role === 'assistant';
+  const { t } = usePreferences();
 
   const formatTimestamp = (isoString?: string) => {
     if (!isoString) return '';
@@ -109,7 +111,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
               isAssistant ? 'text-forest-800' : 'text-forest-100'
             }`}
           >
-            {isAssistant ? 'GreenGrow Assistant' : 'You (Farmer)'}
+            {isAssistant ? t('greengrow_assistant') : t('you_farmer')}
           </span>
           <span
             className={`text-[11px] ${
@@ -140,7 +142,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
               title="Click to open full photo"
             />
             <div className="px-2.5 py-1.5 bg-forest-900/80 text-[11px] text-white font-medium flex items-center justify-between">
-              <span className="flex items-center gap-1">🌱 Crop Photo Attached</span>
+              <span className="flex items-center gap-1">🌱 {t('crop_photo_attached')}</span>
               <span className="text-[10px] text-forest-200">Tap to expand</span>
             </div>
           </div>

@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import languagesData from '../data/languages.json';
 import { Language } from '../types';
 import { useAuth } from './AuthContext';
 import { api } from '../services/api';
+import { getTranslation, TranslationKey } from '../utils/translations';
 
 interface PreferencesContextType {
   languages: Language[];
@@ -17,6 +18,7 @@ interface PreferencesContextType {
   resetOnboarding: () => void;
   speechRate: number;
   setSpeechRate: (rate: number) => void;
+  t: (key: TranslationKey, params?: Record<string, string>) => string;
 }
 
 const PreferencesContext = createContext<PreferencesContextType | undefined>(undefined);
@@ -123,6 +125,13 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
     localStorage.removeItem('greengrow_onboarded');
   };
 
+  const t = useCallback(
+    (key: TranslationKey, params?: Record<string, string>): string => {
+      return getTranslation(key, selectedLanguage.code, params);
+    },
+    [selectedLanguage.code]
+  );
+
   return (
     <PreferencesContext.Provider
       value={{
@@ -138,6 +147,7 @@ export const PreferencesProvider: React.FC<{ children: React.ReactNode }> = ({ c
         resetOnboarding,
         speechRate,
         setSpeechRate,
+        t,
       }}
     >
       {children}
